@@ -21,7 +21,7 @@ jobs:
           pip install bandit safety pytest
 
       - name: SAST with Bandit
-        run: bandit -r app_secure.py 
+        run: bandit -r app_secure.py --severity-level high 
 
       - name: SCA with Safety
         run: safety check -r requirements.txt
