@@ -3,7 +3,7 @@
 <head><title>Search</title></head>
 <body>
   <h2>Search Results</h2>
-  <p>You searched for: {{ query | e }}</p>
+  <p>You searched for: {{ query | replace('javascript:', '') | e }}</p>
   <a href="/search">Search again</a>
 </body>
 </html>
