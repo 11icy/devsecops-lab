@@ -14,14 +14,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
       - name: Install dependencies
-         run: |
-         pip install -r requirements.txt
-         pip install bandit pytest
-         pip install "typer<0.13" safety
+        run: |
+          pip install -r requirements.txt
+          pip install bandit pytest
+          pip install "typer<0.13" safety
 
       - name: SAST with Bandit
-        run: bandit -r app_secure.py --severity-level high 
+        run: bandit -r app_secure.py --severity-level high
 
       - name: SCA with Safety
         run: safety check -r requirements.txt
