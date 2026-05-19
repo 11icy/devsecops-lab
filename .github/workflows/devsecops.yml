@@ -19,7 +19,7 @@ jobs:
         run: |
           pip install -r requirements.txt
           pip install bandit pytest
-          pip install "typer<0.13" safety
+          pip install "safety==2.3.5"
 
       - name: SAST with Bandit
         run: bandit -r app_secure.py --severity-level high
