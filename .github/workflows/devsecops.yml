@@ -1,0 +1,30 @@
+name: DevSecOps Pipeline
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  security-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install bandit safety pytest
+
+      - name: SAST with Bandit
+        run: bandit -r app_vulnerable.py
+
+      - name: SCA with Safety
+        run: safety check -r requirements.txt
+
+      - name: Security tests
+        run: pytest test_security.py -v
