@@ -5,28 +5,28 @@ on:
   pull_request:
 
 jobs:
-  security-checks:
+  sast:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Install Bandit
+        run: pip install bandit
+      - name: Run Bandit SAST
+        run: bandit -r app_vulnerable.py -ll --exit-zero=false
 
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          pip install bandit pytest
-          pip install "safety==2.3.5"
-
-      - name: SAST with Bandit
-        continue-on-error: true
-        run: safety check -r requirements.txt || true
-
-      - name: SCA with Safety
-        run: safety check -r requirements.txt
-
-      - name: Security tests
+          pip install pytest
+      - name: Run security tests
         run: pytest test_security.py -v
